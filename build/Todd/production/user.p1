@@ -4134,37 +4134,73 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `l
 ]
 [; ;constants.h: 96: volatile long test_timer = 0;
-"98
+"97
+[v _double_timer `Vl ~T0 @X0 1 e ]
+[i _double_timer
+-> -> 0 `i `l
+]
+[; ;constants.h: 97: volatile long double_timer = 0;
+"99
+[v _presetSaveMode `uc ~T0 @X0 1 e ]
+[i _presetSaveMode
+-> -> 0 `i `uc
+]
+[; ;constants.h: 99: char presetSaveMode = 0;
+"100
+[v _presetChannel `uc ~T0 @X0 1 e ]
+[i _presetChannel
+-> -> 1 `i `uc
+]
+[; ;constants.h: 100: char presetChannel = 1;
+"101
+[v _expressionChannel `uc ~T0 @X0 1 e ]
+[i _expressionChannel
+-> -> 1 `i `uc
+]
+[; ;constants.h: 101: char expressionChannel = 1;
+"103
 [v _switchBypass_state `uc ~T0 @X0 1 e ]
 [i _switchBypass_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 98: uint8_t switchBypass_state = -1;
-"99
+[; ;constants.h: 103: uint8_t switchBypass_state = -1;
+"104
 [v _switchTap_state `uc ~T0 @X0 1 e ]
 [i _switchTap_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 99: uint8_t switchTap_state = -1;
-"100
+[; ;constants.h: 104: uint8_t switchTap_state = -1;
+"105
 [v _longTap_state `Vuc ~T0 @X0 1 e ]
 [i _longTap_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 100: volatile uint8_t longTap_state = -1;
-"101
+[; ;constants.h: 105: volatile uint8_t longTap_state = -1;
+"106
 [v _feedback_state `Vuc ~T0 @X0 1 e ]
 [i _feedback_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 101: volatile uint8_t feedback_state = -1;
-"103
+[; ;constants.h: 106: volatile uint8_t feedback_state = -1;
+"108
 [v _expSwitchState `uc ~T0 @X0 1 e ]
 [i _expSwitchState
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 103: char expSwitchState = -1;
-"105
+[; ;constants.h: 108: char expSwitchState = -1;
+"110
+[v _presetModeCnst `uc ~T0 @X0 1 e ]
+[i _presetModeCnst
+-> -> 1 `i `uc
+]
+[; ;constants.h: 110: char presetModeCnst = 1;
+"111
+[v _expressModeCnst `uc ~T0 @X0 1 e ]
+[i _expressModeCnst
+-> -> 2 `i `uc
+]
+[; ;constants.h: 111: char expressModeCnst = 2;
+"113
 [v _delayArray `i ~T0 @X0 -> 260 `i e ]
 [i _delayArray
 :U ..
@@ -4425,7 +4461,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> 366 `i
 ..
 ]
-[; ;constants.h: 105: int delayArray[260] = {2082, 2044, 2008, 1973, 1939, 1906, 1874, 1844, 1814, 1785, 1757, 1730, 1704, 1679, 1654, 1630, 1607, 1584, 1562, 1541, 1520, 1500, 1480, 1461, 1443, 1424, 1407, 1389, 1372, 1356, 1340, 1324, 1309, 1294, 1279, 1265, 1250, 1237,
+[; ;constants.h: 113: int delayArray[260] = {2082, 2044, 2008, 1973, 1939, 1906, 1874, 1844, 1814, 1785, 1757, 1730, 1704, 1679, 1654, 1630, 1607, 1584, 1562, 1541, 1520, 1500, 1480, 1461, 1443, 1424, 1407, 1389, 1372, 1356, 1340, 1324, 1309, 1294, 1279, 1265, 1250, 1237,
+"115
+[v _symmetry `i ~T0 @X0 1 e ]
+[i _symmetry
+-> 180 `i
+]
+[; ;constants.h: 115: int symmetry = 180;
 "23 user.c
 [v _InitApp `(v ~T0 @X0 1 ef ]
 {

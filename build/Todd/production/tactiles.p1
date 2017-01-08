@@ -21,7 +21,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S33 . . ]
 "553
 [v _PORTCbits `VS33 ~T0 @X0 0 e@14 ]
-"2449
+"28 preset_programming.h
+[v _resetRingLEDs `(v ~T0 @X0 0 ef ]
+"28 tactiles.h
+[v _setPedalMode `(v ~T0 @X0 0 ef ]
+"2449 C:\Program Files (x86)\Microchip\xc8\v1.37\include\pic16f1527.h
 [s S116 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S116 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
 "2448
@@ -29,6 +33,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S115 . . ]
 "2460
 [v _LATBbits `VS115 ~T0 @X0 0 e@269 ]
+"26 preset_programming.h
+[v _setPresetDisplay `(v ~T0 @X0 0 ef1`uc ]
+"27
+[v _setExpressionDisplay `(v ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3834,37 +3842,73 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `l
 ]
 [; ;constants.h: 96: volatile long test_timer = 0;
-"98
+"97
+[v _double_timer `Vl ~T0 @X0 1 e ]
+[i _double_timer
+-> -> 0 `i `l
+]
+[; ;constants.h: 97: volatile long double_timer = 0;
+"99
+[v _presetSaveMode `uc ~T0 @X0 1 e ]
+[i _presetSaveMode
+-> -> 0 `i `uc
+]
+[; ;constants.h: 99: char presetSaveMode = 0;
+"100
+[v _presetChannel `uc ~T0 @X0 1 e ]
+[i _presetChannel
+-> -> 1 `i `uc
+]
+[; ;constants.h: 100: char presetChannel = 1;
+"101
+[v _expressionChannel `uc ~T0 @X0 1 e ]
+[i _expressionChannel
+-> -> 1 `i `uc
+]
+[; ;constants.h: 101: char expressionChannel = 1;
+"103
 [v _switchBypass_state `uc ~T0 @X0 1 e ]
 [i _switchBypass_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 98: uint8_t switchBypass_state = -1;
-"99
+[; ;constants.h: 103: uint8_t switchBypass_state = -1;
+"104
 [v _switchTap_state `uc ~T0 @X0 1 e ]
 [i _switchTap_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 99: uint8_t switchTap_state = -1;
-"100
+[; ;constants.h: 104: uint8_t switchTap_state = -1;
+"105
 [v _longTap_state `Vuc ~T0 @X0 1 e ]
 [i _longTap_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 100: volatile uint8_t longTap_state = -1;
-"101
+[; ;constants.h: 105: volatile uint8_t longTap_state = -1;
+"106
 [v _feedback_state `Vuc ~T0 @X0 1 e ]
 [i _feedback_state
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 101: volatile uint8_t feedback_state = -1;
-"103
+[; ;constants.h: 106: volatile uint8_t feedback_state = -1;
+"108
 [v _expSwitchState `uc ~T0 @X0 1 e ]
 [i _expSwitchState
 -> -U -> 1 `i `uc
 ]
-[; ;constants.h: 103: char expSwitchState = -1;
-"105
+[; ;constants.h: 108: char expSwitchState = -1;
+"110
+[v _presetModeCnst `uc ~T0 @X0 1 e ]
+[i _presetModeCnst
+-> -> 1 `i `uc
+]
+[; ;constants.h: 110: char presetModeCnst = 1;
+"111
+[v _expressModeCnst `uc ~T0 @X0 1 e ]
+[i _expressModeCnst
+-> -> 2 `i `uc
+]
+[; ;constants.h: 111: char expressModeCnst = 2;
+"113
 [v _delayArray `i ~T0 @X0 -> 260 `i e ]
 [i _delayArray
 :U ..
@@ -4125,306 +4169,474 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> 366 `i
 ..
 ]
-[; ;constants.h: 105: int delayArray[260] = {2082, 2044, 2008, 1973, 1939, 1906, 1874, 1844, 1814, 1785, 1757, 1730, 1704, 1679, 1654, 1630, 1607, 1584, 1562, 1541, 1520, 1500, 1480, 1461, 1443, 1424, 1407, 1389, 1372, 1356, 1340, 1324, 1309, 1294, 1279, 1265, 1250, 1237,
+[; ;constants.h: 113: int delayArray[260] = {2082, 2044, 2008, 1973, 1939, 1906, 1874, 1844, 1814, 1785, 1757, 1730, 1704, 1679, 1654, 1630, 1607, 1584, 1562, 1541, 1520, 1500, 1480, 1461, 1443, 1424, 1407, 1389, 1372, 1356, 1340, 1324, 1309, 1294, 1279, 1265, 1250, 1237,
+"115
+[v _symmetry `i ~T0 @X0 1 e ]
+[i _symmetry
+-> 180 `i
+]
+[; ;constants.h: 115: int symmetry = 180;
 [; ;tactiles.h: 24: void read_bottom_tactile(void);
 [; ;tactiles.h: 25: void read_top_tactile(void);
 [; ;tactiles.h: 26: void update_mode(void);
+[; ;tactiles.h: 27: void update_selectMode(void);
+[; ;tactiles.h: 28: void setPedalMode(void);
 [; ;LEDs.h: 24: void star_tactiles(uint8_t);
 [; ;LEDs.h: 25: void ring_tactiles(void);
 [; ;LEDs.h: 26: void solidring_tactiles(void);
 [; ;LEDs.h: 27: void showSave(void);
 [; ;LEDs.h: 28: void showBootSequence(void);
-"14 tactiles.c
+[; ;preset_programming.h: 25: void setDoublePressState(int);
+[; ;preset_programming.h: 26: void setPresetDisplay(char);
+[; ;preset_programming.h: 27: void setExpressionDisplay(char);
+[; ;preset_programming.h: 28: void resetRingLEDs(void);
+"15 tactiles.c
 [v _topTactile_pressed `uc ~T0 @X0 1 e ]
 [i _topTactile_pressed
 -> -> 0 `i `uc
 ]
-[; ;tactiles.c: 14: uint8_t topTactile_pressed = 0;
-"15
+[; ;tactiles.c: 15: uint8_t topTactile_pressed = 0;
+"16
 [v _bottomTactile_pressed `uc ~T0 @X0 1 e ]
 [i _bottomTactile_pressed
 -> -> 0 `i `uc
 ]
-[; ;tactiles.c: 15: uint8_t bottomTactile_pressed = 0;
-"17
+[; ;tactiles.c: 16: uint8_t bottomTactile_pressed = 0;
+"18
 [v _read_bottom_tactile `(v ~T0 @X0 1 ef ]
 {
-[; ;tactiles.c: 17: void read_bottom_tactile(void) {
+[; ;tactiles.c: 18: void read_bottom_tactile(void) {
 [e :U _read_bottom_tactile ]
 [f ]
-[; ;tactiles.c: 25: if (PORTDbits.RD6 == 0) {
-"25
+[; ;tactiles.c: 26: if (PORTDbits.RD6 == 0) {
+"26
 [e $ ! == -> . . _PORTDbits 0 6 `i -> 0 `i 461  ]
 {
-[; ;tactiles.c: 26: if (bottomTactile_pressed > 0) {
-"26
+[; ;tactiles.c: 27: if (bottomTactile_pressed > 0) {
+"27
 [e $ ! > -> _bottomTactile_pressed `i -> 0 `i 462  ]
 {
-[; ;tactiles.c: 27: bottomTactile_pressed--;
-"27
-[e -- _bottomTactile_pressed -> -> 1 `i `uc ]
+[; ;tactiles.c: 28: bottomTactile_pressed--;
 "28
-}
-[e :U 462 ]
+[e -- _bottomTactile_pressed -> -> 1 `i `uc ]
 "29
 }
-[; ;tactiles.c: 28: }
-[; ;tactiles.c: 29: } else if (bottomTactile_pressed < 25) {
+[e :U 462 ]
+"30
+}
+[; ;tactiles.c: 29: }
+[; ;tactiles.c: 30: } else if (bottomTactile_pressed < 25) {
 [e $U 463  ]
 [e :U 461 ]
 [e $ ! < -> _bottomTactile_pressed `i -> 25 `i 464  ]
 {
-[; ;tactiles.c: 30: bottomTactile_pressed++;
-"30
-[e ++ _bottomTactile_pressed -> -> 1 `i `uc ]
+[; ;tactiles.c: 31: bottomTactile_pressed++;
 "31
+[e ++ _bottomTactile_pressed -> -> 1 `i `uc ]
+"32
 }
 [e :U 464 ]
-"34
+"35
 [e :U 463 ]
-[; ;tactiles.c: 31: }
-[; ;tactiles.c: 34: if (bottomTactile_pressed == 0) {
+[; ;tactiles.c: 32: }
+[; ;tactiles.c: 35: if (bottomTactile_pressed == 0) {
 [e $ ! == -> _bottomTactile_pressed `i -> 0 `i 465  ]
 {
-[; ;tactiles.c: 35: bottom_push_state = bottom_push_state + 1;
-"35
-[e = _bottom_push_state + _bottom_push_state -> 1 `i ]
-[; ;tactiles.c: 36: if (bottom_push_state > 6) {
+[; ;tactiles.c: 36: bottom_push_state = bottom_push_state + 1;
 "36
+[e = _bottom_push_state + _bottom_push_state -> 1 `i ]
+[; ;tactiles.c: 37: if (bottom_push_state > 6) {
+"37
 [e $ ! > _bottom_push_state -> 6 `i 466  ]
 {
-[; ;tactiles.c: 37: bottom_push_state = 1;
-"37
-[e = _bottom_push_state -> 1 `i ]
+[; ;tactiles.c: 38: bottom_push_state = 1;
 "38
+[e = _bottom_push_state -> 1 `i ]
+"39
 }
 [e :U 466 ]
-[; ;tactiles.c: 38: }
-[; ;tactiles.c: 39: set_leds_bottom(bottom_push_state);
-"39
+[; ;tactiles.c: 39: }
+[; ;tactiles.c: 40: set_leds_bottom(bottom_push_state);
+"40
 [e ( _set_leds_bottom (1 _bottom_push_state ]
-[; ;tactiles.c: 41: while (PORTDbits.RD6 == 0) {
-"41
+[; ;tactiles.c: 42: while (PORTDbits.RD6 == 0) {
+"42
 [e $U 467  ]
 [e :U 468 ]
 {
-"42
+"43
 }
 [e :U 467 ]
-"41
+"42
 [e $ == -> . . _PORTDbits 0 6 `i -> 0 `i 468  ]
 [e :U 469 ]
-[; ;tactiles.c: 42: }
-[; ;tactiles.c: 43: wait_ms(20);
-"43
-[e ( _wait_ms (1 -> -> 20 `i `ui ]
+[; ;tactiles.c: 43: }
+[; ;tactiles.c: 44: wait_ms(20);
 "44
+[e ( _wait_ms (1 -> -> 20 `i `ui ]
+"45
 }
 [e :U 465 ]
-[; ;tactiles.c: 44: }
 [; ;tactiles.c: 45: }
-"45
+[; ;tactiles.c: 46: }
+"46
 [e :UE 460 ]
 }
-"47
+"48
 [v _read_top_tactile `(v ~T0 @X0 1 ef ]
 {
-[; ;tactiles.c: 47: void read_top_tactile(void) {
+[; ;tactiles.c: 48: void read_top_tactile(void) {
 [e :U _read_top_tactile ]
 [f ]
-[; ;tactiles.c: 56: if (PORTDbits.RD5 == 0) {
-"56
+[; ;tactiles.c: 57: if (PORTDbits.RD5 == 0) {
+"57
 [e $ ! == -> . . _PORTDbits 0 5 `i -> 0 `i 471  ]
 {
-[; ;tactiles.c: 57: if (topTactile_pressed > 0) {
-"57
+[; ;tactiles.c: 58: if (topTactile_pressed > 0) {
+"58
 [e $ ! > -> _topTactile_pressed `i -> 0 `i 472  ]
 {
-[; ;tactiles.c: 58: topTactile_pressed--;
-"58
-[e -- _topTactile_pressed -> -> 1 `i `uc ]
+[; ;tactiles.c: 59: topTactile_pressed--;
 "59
-}
-[e :U 472 ]
+[e -- _topTactile_pressed -> -> 1 `i `uc ]
 "60
 }
-[; ;tactiles.c: 59: }
-[; ;tactiles.c: 60: } else if (topTactile_pressed < 25) {
+[e :U 472 ]
+"61
+}
+[; ;tactiles.c: 60: }
+[; ;tactiles.c: 61: } else if (topTactile_pressed < 25) {
 [e $U 473  ]
 [e :U 471 ]
 [e $ ! < -> _topTactile_pressed `i -> 25 `i 474  ]
 {
-[; ;tactiles.c: 61: topTactile_pressed++;
-"61
-[e ++ _topTactile_pressed -> -> 1 `i `uc ]
+[; ;tactiles.c: 62: topTactile_pressed++;
 "62
+[e ++ _topTactile_pressed -> -> 1 `i `uc ]
+"63
 }
 [e :U 474 ]
-"67
+"68
 [e :U 473 ]
-[; ;tactiles.c: 62: }
-[; ;tactiles.c: 67: if (topTactile_pressed == 0) {
+[; ;tactiles.c: 63: }
+[; ;tactiles.c: 68: if (topTactile_pressed == 0) {
 [e $ ! == -> _topTactile_pressed `i -> 0 `i 475  ]
 {
-[; ;tactiles.c: 68: top_push_state = top_push_state + 1;
-"68
-[e = _top_push_state + _top_push_state -> 1 `i ]
-[; ;tactiles.c: 69: if (top_push_state >= 7) {
+[; ;tactiles.c: 69: top_push_state = top_push_state + 1;
 "69
+[e = _top_push_state + _top_push_state -> 1 `i ]
+[; ;tactiles.c: 70: if (top_push_state >= 7) {
+"70
 [e $ ! >= _top_push_state -> 7 `i 476  ]
 {
-[; ;tactiles.c: 70: top_push_state = 1;
-"70
-[e = _top_push_state -> 1 `i ]
+[; ;tactiles.c: 71: top_push_state = 1;
 "71
+[e = _top_push_state -> 1 `i ]
+"72
 }
 [e :U 476 ]
-[; ;tactiles.c: 71: }
-[; ;tactiles.c: 72: set_leds_top(top_push_state, 1);
-"72
-[e ( _set_leds_top (2 , _top_push_state -> 1 `i ]
-[; ;tactiles.c: 73: delay_time_changed = 1;
+[; ;tactiles.c: 72: }
+[; ;tactiles.c: 73: set_leds_top(top_push_state, 1);
 "73
+[e ( _set_leds_top (2 , _top_push_state -> 1 `i ]
+[; ;tactiles.c: 74: delay_time_changed = 1;
+"74
 [e = _delay_time_changed -> 1 `i ]
-[; ;tactiles.c: 76: while (PORTDbits.RD5 == 0) {
-"76
+[; ;tactiles.c: 77: while (PORTDbits.RD5 == 0) {
+"77
 [e $U 477  ]
 [e :U 478 ]
 {
-"77
+"78
 }
 [e :U 477 ]
-"76
+"77
 [e $ == -> . . _PORTDbits 0 5 `i -> 0 `i 478  ]
 [e :U 479 ]
-[; ;tactiles.c: 77: }
-[; ;tactiles.c: 78: wait_ms(20);
-"78
-[e ( _wait_ms (1 -> -> 20 `i `ui ]
+[; ;tactiles.c: 78: }
+[; ;tactiles.c: 79: wait_ms(20);
 "79
+[e ( _wait_ms (1 -> -> 20 `i `ui ]
+"80
 }
 [e :U 475 ]
-[; ;tactiles.c: 79: }
 [; ;tactiles.c: 80: }
-"80
+[; ;tactiles.c: 81: }
+"81
 [e :UE 470 ]
 }
-"82
+"83
 [v _update_mode `(v ~T0 @X0 1 ef ]
 {
-[; ;tactiles.c: 82: void update_mode(void) {
+[; ;tactiles.c: 83: void update_mode(void) {
 [e :U _update_mode ]
 [f ]
-[; ;tactiles.c: 87: if (PORTCbits.RC0 == 0) {
-"87
+[; ;tactiles.c: 88: if (PORTCbits.RC0 == 0) {
+"88
 [e $ ! == -> . . _PORTCbits 0 0 `i -> 0 `i 481  ]
 {
-[; ;tactiles.c: 88: debounce_mode2++;
-"88
-[e ++ _debounce_mode2 -> 1 `i ]
-[; ;tactiles.c: 89: if (debounce_mode2 > 25) {
+[; ;tactiles.c: 89: debounce_mode2++;
 "89
+[e ++ _debounce_mode2 -> 1 `i ]
+[; ;tactiles.c: 90: if (debounce_mode2 > 25) {
+"90
 [e $ ! > _debounce_mode2 -> 25 `i 482  ]
 {
-[; ;tactiles.c: 90: debounce_mode2 = 25;
-"90
-[e = _debounce_mode2 -> 25 `i ]
-[; ;tactiles.c: 91: mode2_state++;
+[; ;tactiles.c: 91: debounce_mode2 = 25;
 "91
-[e ++ _mode2_state -> -> 1 `i `uc ]
-[; ;tactiles.c: 92: if (mode2_state > 2) {
-"92
-[e $ ! > -> _mode2_state `i -> 2 `i 483  ]
-{
-[; ;tactiles.c: 93: mode2_state = 0;
+[e = _debounce_mode2 -> 25 `i ]
+[; ;tactiles.c: 93: if (presetSaveMode == 1) {
 "93
-[e = _mode2_state -> -> 0 `i `uc ]
+[e $ ! == -> _presetSaveMode `i -> 1 `i 483  ]
+{
+[; ;tactiles.c: 94: presetSaveMode = 0;
 "94
-}
-[e :U 483 ]
-[; ;tactiles.c: 94: }
-[; ;tactiles.c: 95: switch(mode2_state) {
+[e = _presetSaveMode -> -> 0 `i `uc ]
+[; ;tactiles.c: 95: resetRingLEDs();
 "95
-[e $U 485  ]
-{
-[; ;tactiles.c: 96: case 0:
+[e ( _resetRingLEDs ..  ]
 "96
-[e :U 486 ]
-[; ;tactiles.c: 97: LATBbits.LATB1 = 0;
-"97
-[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
-[; ;tactiles.c: 98: LATBbits.LATB0 = 0;
-"98
-[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
-[; ;tactiles.c: 99: break;
-"99
-[e $U 484  ]
-[; ;tactiles.c: 100: case 1:
-"100
-[e :U 487 ]
-[; ;tactiles.c: 101: LATBbits.LATB1 = 0;
-"101
-[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
-[; ;tactiles.c: 102: LATBbits.LATB0 = 1;
-"102
-[e = . . _LATBbits 0 0 -> -> 1 `i `uc ]
-[; ;tactiles.c: 103: break;
-"103
-[e $U 484  ]
-[; ;tactiles.c: 104: case 2:
-"104
-[e :U 488 ]
-[; ;tactiles.c: 105: LATBbits.LATB1 = 1;
-"105
-[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
-[; ;tactiles.c: 106: LATBbits.LATB0 = 0;
-"106
-[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
-[; ;tactiles.c: 107: break;
-"107
-[e $U 484  ]
-"108
 }
-[; ;tactiles.c: 108: }
+[; ;tactiles.c: 96: } else {
 [e $U 484  ]
-"95
-[e :U 485 ]
-[e [\ _mode2_state , $ -> -> 0 `i `uc 486
- , $ -> -> 1 `i `uc 487
- , $ -> -> 2 `i `uc 488
- 484 ]
-"108
-[e :U 484 ]
-[; ;tactiles.c: 109: while (PORTCbits.RC0 == 0) {
-"109
-[e $U 489  ]
-[e :U 490 ]
+[e :U 483 ]
 {
-"110
+[; ;tactiles.c: 97: mode2_state++;
+"97
+[e ++ _mode2_state -> -> 1 `i `uc ]
+[; ;tactiles.c: 98: if (mode2_state > 2) {
+"98
+[e $ ! > -> _mode2_state `i -> 2 `i 485  ]
+{
+[; ;tactiles.c: 99: mode2_state = 0;
+"99
+[e = _mode2_state -> -> 0 `i `uc ]
+"100
 }
-[e :U 489 ]
-"109
-[e $ == -> . . _PORTCbits 0 0 `i -> 0 `i 490  ]
-[e :U 491 ]
-"111
+[e :U 485 ]
+"101
+}
+[e :U 484 ]
+[; ;tactiles.c: 100: }
+[; ;tactiles.c: 101: }
+[; ;tactiles.c: 103: setPedalMode();
+"103
+[e ( _setPedalMode ..  ]
+[; ;tactiles.c: 104: while (PORTCbits.RC0 == 0) {
+"104
+[e $U 486  ]
+[e :U 487 ]
+{
+"105
+}
+[e :U 486 ]
+"104
+[e $ == -> . . _PORTCbits 0 0 `i -> 0 `i 487  ]
+[e :U 488 ]
+"106
 }
 [e :U 482 ]
-"112
+"107
 }
-[; ;tactiles.c: 110: }
-[; ;tactiles.c: 111: }
-[; ;tactiles.c: 112: } else {
-[e $U 492  ]
+[; ;tactiles.c: 105: }
+[; ;tactiles.c: 106: }
+[; ;tactiles.c: 107: } else {
+[e $U 489  ]
 [e :U 481 ]
 {
-[; ;tactiles.c: 113: debounce_mode2 = 0;
-"113
+[; ;tactiles.c: 108: debounce_mode2 = 0;
+"108
 [e = _debounce_mode2 -> 0 `i ]
-"114
+"109
 }
-[e :U 492 ]
-[; ;tactiles.c: 114: }
-[; ;tactiles.c: 116: }
-"116
+[e :U 489 ]
+[; ;tactiles.c: 109: }
+[; ;tactiles.c: 111: }
+"111
 [e :UE 480 ]
+}
+"113
+[v _setPedalMode `(v ~T0 @X0 1 ef ]
+{
+[; ;tactiles.c: 113: void setPedalMode(void) {
+[e :U _setPedalMode ]
+[f ]
+[; ;tactiles.c: 114: switch(mode2_state) {
+"114
+[e $U 492  ]
+{
+[; ;tactiles.c: 115: case 0:
+"115
+[e :U 493 ]
+[; ;tactiles.c: 116: LATBbits.LATB1 = 0;
+"116
+[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+[; ;tactiles.c: 117: LATBbits.LATB0 = 0;
+"117
+[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
+[; ;tactiles.c: 118: resetRingLEDs();
+"118
+[e ( _resetRingLEDs ..  ]
+[; ;tactiles.c: 119: break;
+"119
+[e $U 491  ]
+[; ;tactiles.c: 120: case 1:
+"120
+[e :U 494 ]
+[; ;tactiles.c: 121: LATBbits.LATB1 = 0;
+"121
+[e = . . _LATBbits 0 1 -> -> 0 `i `uc ]
+[; ;tactiles.c: 122: LATBbits.LATB0 = 1;
+"122
+[e = . . _LATBbits 0 0 -> -> 1 `i `uc ]
+[; ;tactiles.c: 123: setPresetDisplay(presetChannel);
+"123
+[e ( _setPresetDisplay (1 _presetChannel ]
+[; ;tactiles.c: 124: break;
+"124
+[e $U 491  ]
+[; ;tactiles.c: 125: case 2:
+"125
+[e :U 495 ]
+[; ;tactiles.c: 126: LATBbits.LATB1 = 1;
+"126
+[e = . . _LATBbits 0 1 -> -> 1 `i `uc ]
+[; ;tactiles.c: 127: LATBbits.LATB0 = 0;
+"127
+[e = . . _LATBbits 0 0 -> -> 0 `i `uc ]
+[; ;tactiles.c: 128: setExpressionDisplay(expressionChannel);
+"128
+[e ( _setExpressionDisplay (1 _expressionChannel ]
+[; ;tactiles.c: 129: break;
+"129
+[e $U 491  ]
+"130
+}
+[; ;tactiles.c: 130: }
+[e $U 491  ]
+"114
+[e :U 492 ]
+[e [\ _mode2_state , $ -> -> 0 `i `uc 493
+ , $ -> -> 1 `i `uc 494
+ , $ -> -> 2 `i `uc 495
+ 491 ]
+"130
+[e :U 491 ]
+[; ;tactiles.c: 131: }
+"131
+[e :UE 490 ]
+}
+"133
+[v _update_selectMode `(v ~T0 @X0 1 ef ]
+{
+[; ;tactiles.c: 133: void update_selectMode(void) {
+[e :U _update_selectMode ]
+[f ]
+[; ;tactiles.c: 134: if (mode2_state == 0 && presetSaveMode != 1) {
+"134
+[e $ ! && == -> _mode2_state `i -> 0 `i != -> _presetSaveMode `i -> 1 `i 497  ]
+{
+[; ;tactiles.c: 136: return;
+"136
+[e $UE 496  ]
+"137
+}
+[e :U 497 ]
+[; ;tactiles.c: 137: }
+[; ;tactiles.c: 138: if (PORTDbits.RD7 == 0) {
+"138
+[e $ ! == -> . . _PORTDbits 0 7 `i -> 0 `i 498  ]
+{
+[; ;tactiles.c: 139: debounce_mode1++;
+"139
+[e ++ _debounce_mode1 -> 1 `i ]
+[; ;tactiles.c: 140: if (debounce_mode1 > 25) {
+"140
+[e $ ! > _debounce_mode1 -> 25 `i 499  ]
+{
+[; ;tactiles.c: 141: debounce_mode1 = 25;
+"141
+[e = _debounce_mode1 -> 25 `i ]
+[; ;tactiles.c: 142: if (mode2_state == presetModeCnst || presetSaveMode == 1) {
+"142
+[e $ ! || == -> _mode2_state `i -> _presetModeCnst `i == -> _presetSaveMode `i -> 1 `i 500  ]
+{
+[; ;tactiles.c: 143: presetChannel++;
+"143
+[e ++ _presetChannel -> -> 1 `i `uc ]
+[; ;tactiles.c: 144: if (presetChannel > 10) {
+"144
+[e $ ! > -> _presetChannel `i -> 10 `i 501  ]
+{
+[; ;tactiles.c: 145: presetChannel = 1;
+"145
+[e = _presetChannel -> -> 1 `i `uc ]
+"146
+}
+[e :U 501 ]
+[; ;tactiles.c: 146: }
+[; ;tactiles.c: 147: setPresetDisplay(presetChannel);
+"147
+[e ( _setPresetDisplay (1 _presetChannel ]
+"148
+}
+[; ;tactiles.c: 148: } else if (mode2_state == expressModeCnst) {
+[e $U 502  ]
+[e :U 500 ]
+[e $ ! == -> _mode2_state `i -> _expressModeCnst `i 503  ]
+{
+[; ;tactiles.c: 149: expressionChannel++;
+"149
+[e ++ _expressionChannel -> -> 1 `i `uc ]
+[; ;tactiles.c: 150: if (expressionChannel > 5) {
+"150
+[e $ ! > -> _expressionChannel `i -> 5 `i 504  ]
+{
+[; ;tactiles.c: 151: expressionChannel = 1;
+"151
+[e = _expressionChannel -> -> 1 `i `uc ]
+"152
+}
+[e :U 504 ]
+[; ;tactiles.c: 152: }
+[; ;tactiles.c: 153: setExpressionDisplay(expressionChannel);
+"153
+[e ( _setExpressionDisplay (1 _expressionChannel ]
+"154
+}
+[e :U 503 ]
+"161
+[e :U 502 ]
+[; ;tactiles.c: 154: }
+[; ;tactiles.c: 161: while (PORTDbits.RD7 == 0) {
+[e $U 505  ]
+[e :U 506 ]
+{
+"162
+}
+[e :U 505 ]
+"161
+[e $ == -> . . _PORTDbits 0 7 `i -> 0 `i 506  ]
+[e :U 507 ]
+"163
+}
+[e :U 499 ]
+"164
+}
+[; ;tactiles.c: 162: }
+[; ;tactiles.c: 163: }
+[; ;tactiles.c: 164: } else {
+[e $U 508  ]
+[e :U 498 ]
+{
+[; ;tactiles.c: 165: debounce_mode1 = 0;
+"165
+[e = _debounce_mode1 -> 0 `i ]
+"166
+}
+[e :U 508 ]
+[; ;tactiles.c: 166: }
+[; ;tactiles.c: 168: }
+"168
+[e :UE 496 ]
 }

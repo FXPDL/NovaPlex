@@ -74,6 +74,7 @@ char B25k[] = {255, 255, 255, 223, 174, 142, 120, 103, 91, 80, 72, 66, 60, 55, 5
 //int iB25k[] = {7, 7, 11, 15, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 35, 37, 39, 42, 45, 48, 51, 55, 60, 66, 72, 80, 91, 103, 120, 142, 174, 223, 255, 255, 255};
 
 int B25kLength = 0;
+char feedbackTriggered = 0;
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -82,6 +83,11 @@ int B25kLength = 0;
 
 void main(void) {
     B25kLength = sizeof(B25k)/sizeof(B25k[0]);
+
+
+    
+    
+   // USARTInit(31250);
 
     ConfigureOscillator();
     InitApp();
@@ -100,32 +106,45 @@ void main(void) {
     ReadSavedSettings();
     
     while (1) {
-        read_bottom_tactile();
-        read_top_tactile();
 
-        update_expressSwitchState();
+
+        //update_expressSwitchState();
         
-        update_mode();
         
-        if (mode_1 == 0) {
-            debounce_mode1++;
-            if (debounce_mode1 > 25) {
-                debounce_mode1 = 25;
-                //Save button
-               // preset_programmning_on =  !preset_programmning_on;
+        //Get the amount of data waiting in USART queue
+       // uint8_t n = USARTDataAvailable();
+
+        //If we have some data
+       /* if (n != 0) {
+            LED_bypass_B = 0;
+            LED_bypass_A = 0;
+            //Read it
+            char data = USARTReadData();
+            if (data < 128) {
                 
-                showBootSequence(); 
-                //showSave();
-
-                while (mode_1 == 0) {
-                }
+                LED_bypass_A = 1;
+            } else {
+                LED_bypass_A = 0;
+                LED_bypass_B = 1;
             }
         } else {
-            debounce_mode1 = 0;
-        }
+            LED_bypass_B = 0;
+        }*/
+      
+        
+		update_mode();
+        update_selectMode();
 
         updateSwitchBypass();
-        updateSwitchTap();
+        if (presetSaveMode != 1) { //preset mode and preset save mode
+        	updateSwitchTap();
+        }
+
+        if (presetSaveMode != 1 && mode2_state != presetModeCnst) { //preset mode and preset save mode
+            read_bottom_tactile();
+            read_top_tactile();
+        }
+       
 
         //read pots---------------------------------------
         knob_1_pos = adc_convert(0); //   
@@ -192,7 +211,7 @@ void main(void) {
         //  2) Map knob to 0-39 for array
         //  3) Set CCP to calibrated value
         //------------------------------------------------
-        if (bottom_push_state != 5) {
+        /*if (bottom_push_state != 5) {
             if (knob_3_pos - knob3_prev >= 4 || knob_3_pos - knob3_prev <= -4) {
                 knob3_prev = knob_3_pos;
                 int i = (int)map(knob3_prev, 0, 1023, 16, 0);
@@ -200,13 +219,52 @@ void main(void) {
                 CCPR5 = (int)B25k[i];
             }
         } else {
-            if (knob3_prev != 511) {
-                knob3_prev = 511;
+            if (knob3_prev != 1023) {
+                knob3_prev = 1023;
                 //in chorus mode, set the feedback to 50%
                 int i = (int) map(knob3_prev, 0, 1023, 16, 0);
                 CCPR4 = (int) B25k[B25kLength - 1 - i]; //iB25k[i];  //this is the inverse of B25k
                 CCPR5 = (int) B25k[i];
             }
+            
+        }*/
+
+        if (bottom_push_state == 5) {
+            if (knob3_prev != 1023) {
+                knob3_prev = 1023;
+                //in chorus mode, set the feedback to 0%
+                int i = (int) map(knob3_prev, 0, 1023, 16, 0);
+                CCPR4 = (int) B25k[B25kLength - 1 - i]; //iB25k[i];  //this is the inverse of B25k
+                CCPR5 = (int) B25k[i];
+            }
+        } else if (feedback_state == 1) {
+            if (knob3_prev != 0) {
+                knob3_prev = 0;
+                feedbackTriggered = 1;
+                //in feedback mode, set the feedback to 50%
+                int i = (int) map(knob3_prev, 0, 1023, 25, 0);
+                CCPR4 = (int) B25k[B25kLength - 1 - i]; //iB25k[i];  //this is the inverse of B25k
+                CCPR5 = (int) B25k[i];
+            }
+        } else {
+            
+            
+            if ((knob_3_pos - knob3_prev >= 4 || knob_3_pos - knob3_prev <= -4) || feedbackTriggered == 1) {
+                knob3_prev = knob_3_pos;
+                int i = (int) map(knob3_prev, 0, 1023, 18, 0);
+                CCPR4 = (int) B25k[B25kLength - 1 - i]; //iB25k[i];  //this is the inverse of B25k
+                CCPR5 = (int) B25k[i];
+            }
+             
+            
+            /*
+            if ((knob_3_pos - knob3_prev >= 4 || knob_3_pos - knob3_prev <= -4) || feedbackTriggered == 1) {
+                CCPR4 = (int) B25k[B25kLength - 1 - 9]; //iB25k[i];  //this is the inverse of B25k
+                CCPR5 = (int) B25k[9];
+                knob3_prev = knob_3_pos;
+                symmetry = (int) map(knob3_prev, 0, 1023, 45, 325);
+            }
+             */
             
         }
 

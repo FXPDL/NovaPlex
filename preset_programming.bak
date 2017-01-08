@@ -22,7 +22,6 @@ extern "C" {
 #endif	/* PRESET_PROGRAMMING_H */
 
 
-void setDoublePressState(int);
-void setPresetDisplay(char);
+void setDoublePressState(int);void setPresetDisplay(char);
 void setExpressionDisplay(char);
 void resetRingLEDs(void);

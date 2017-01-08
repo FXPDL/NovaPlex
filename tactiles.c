@@ -10,6 +10,7 @@
 #include "constants.h"      /* program constants */ 
 #include "tactiles.h"
 #include "LEDs.h"
+#include "preset_programming.h"
 
  uint8_t topTactile_pressed = 0;  
  uint8_t bottomTactile_pressed = 0;  
@@ -88,29 +89,80 @@ void update_mode(void) {
         debounce_mode2++;
         if (debounce_mode2 > 25) {
             debounce_mode2 = 25;
+
+            if (presetSaveMode == 1) {
+                presetSaveMode = 0; 
+                resetRingLEDs();
+            } else {
             mode2_state++;
             if (mode2_state > 2) {
                 mode2_state = 0;
             }
-            switch(mode2_state) {
-                case 0:
-                    LED_bypass_Aux = 0;
-                    LED_tap_Aux = 0;
-                    break;
-                case 1:
-                    LED_bypass_Aux = 0;
-                    LED_tap_Aux = 1;
-                    break;
-                case 2:
-                    LED_bypass_Aux = 1;
-                    LED_tap_Aux = 0;
-                    break;
             }
+            
+            setPedalMode();
             while (mode_2 == 0) {
             }
         }
     } else {
         debounce_mode2 = 0;
+    }
+        
+}
+
+void setPedalMode(void) {
+            switch(mode2_state) {
+                case 0:
+                    LED_bypass_Aux = 0;
+                    LED_tap_Aux = 0;
+            resetRingLEDs();
+                    break;
+                case 1:
+                    LED_bypass_Aux = 0;
+                    LED_tap_Aux = 1;
+            setPresetDisplay(presetChannel); //restore the LEDs
+                    break;
+                case 2:
+                    LED_bypass_Aux = 1;
+                    LED_tap_Aux = 0;
+            setExpressionDisplay(expressionChannel); //restore the LEDs
+                    break;
+            }
+}
+
+void update_selectMode(void) {
+    if (mode2_state == 0 && presetSaveMode != 1) {
+        //not in preset select mode or preset save mode
+        return;
+    }
+    if (mode_1 == 0) {
+        debounce_mode1++;
+        if (debounce_mode1 > 25) {
+            debounce_mode1 = 25;
+            if (mode2_state == presetModeCnst || presetSaveMode == 1) {
+                presetChannel++;
+                if (presetChannel > 10) {
+                    presetChannel = 1;
+                }
+                setPresetDisplay(presetChannel);
+            } else if (mode2_state == expressModeCnst) {
+                expressionChannel++;
+                if (expressionChannel > 5) {
+                    expressionChannel = 1;
+                }
+                setExpressionDisplay(expressionChannel);
+            }
+            //Save button
+            // preset_programmning_on =  !preset_programmning_on;
+
+            //showBootSequence();
+            //showSave();
+
+            while (mode_1 == 0) {
+            }
+        }
+    } else {
+        debounce_mode1 = 0;
     }
         
 }
